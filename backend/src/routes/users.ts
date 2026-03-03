@@ -33,19 +33,14 @@ users.get('/:id', async (c) => {
 // POST /api/users - Create new user
 users.post('/', async (c) => {
   try {
-    const body = await c.req.json<CreateUserInput>()
-
-    const [id] = await db<User>('users').insert({
-      name: body.name,
-      email: body.email,
-    })
-
-    const newUser = await db<User>('users').where({ id }).first()
-    return c.json(newUser, 201)
+    const { name, email } = await c.req.json();
+    if (!name || !email) return c.json({ error: 'Missing fields' }, 400);
+    const [insertedUser] = await db<User>('users').insert({ name, email }).returning('*');
+    return c.json(insertedUser, 201);
   } catch (error) {
     return c.json({ error: 'Failed to create user' }, 500)
   }
-})
+});
 
 // DELETE /api/users/:id - Delete user
 users.delete('/:id', async (c) => {

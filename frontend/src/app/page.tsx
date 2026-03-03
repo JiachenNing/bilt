@@ -11,6 +11,7 @@ import {
   setSearchQuery,
   clearSearchQuery,
 } from "@/store/slices/userFilterSlice";
+import Link from "next/link";
 
 export default function Home() {
   // Single hook replaces useEffect + useDispatch + useSelector
@@ -45,6 +46,13 @@ export default function Home() {
     <main style={{ padding: "2rem", maxWidth: "800px", margin: "0 auto" }}>
       <div style={{ marginTop: "2rem" }}>
         <h2>Users from Backend</h2>
+
+        {/* quick link to create page */}
+        <div style={{ marginBottom: "1rem" }}>
+          <Link href="/create-user">
+            <StyledButton>Create User</StyledButton>
+          </Link>
+        </div>
 
         {/* Search filter UI */}
         <div style={{ marginBottom: "1rem" }}>
@@ -88,28 +96,31 @@ export default function Home() {
         )}
 
         {/* Show filtered users */}
-        {filteredUsers.length > 0 ? (
-          <ul style={{ marginTop: "1rem" }}>
-            {filteredUsers.map((user) => (
-              <li key={user.id} style={{ marginBottom: "0.5rem" }}>
-                {user.name} - {user.email}
-                <button
-                  onClick={() => handleDelete(user.id)}
-                  disabled={isDeleting}
-                  style={{ marginLeft: "1rem", fontSize: "0.8rem" }}
-                >
-                  Delete
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          users.length > 0 && (
-            <p style={{ marginTop: "1rem", color: "#999" }}>
-              No users found matching &quot;{searchQuery}&quot;
-            </p>
-          )
-        )}
+          {filteredUsers.length > 0 ? (
+            <ul style={{ marginTop: "1rem" }}>
+              {filteredUsers.map((user) => (
+                <li key={user.id} style={{ marginBottom: "0.5rem" }}>
+                  <Link href={`/users/${user.id}`} style={{ marginRight: "0.5rem" }}>
+                    {user.name}
+                  </Link>
+                  - {user.email}
+                  <button
+                    onClick={() => handleDelete(user.id)}
+                    disabled={isDeleting}
+                    style={{ marginLeft: "1rem", fontSize: "0.8rem" }}
+                  >
+                    Delete
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            users.length > 0 && (
+              <p style={{ marginTop: "1rem", color: "#999" }}>
+                No users found matching &quot;{searchQuery}&quot;
+              </p>
+            )
+          )}
       </div>
     </main>
   );

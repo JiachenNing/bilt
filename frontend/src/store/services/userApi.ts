@@ -38,6 +38,9 @@ export const userApi = createApi({
         method: 'POST',
         body,
       }),
+      // A mutation (like createUser) "invalidates" that same tag.
+      // As soon as the mutation succeeds, RTK Query sees that the 'User' tag is dirty and automatically 
+      // triggers a refetch of all active queries providing that tag.
       invalidatesTags: [{ type: 'User', id: 'LIST' }],
     }),
     deleteUser: builder.mutation<void, number>({
