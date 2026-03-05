@@ -5,6 +5,8 @@ interface UserFilterState {
   searchQuery: string;
 }
 
+// searchQuery lives in Redux global state, not local component state.
+// instead of keeping search text inside a React component with useState, this stores it in the global Redux store.
 const initialState: UserFilterState = {
   searchQuery: "",
 };

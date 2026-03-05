@@ -1,5 +1,6 @@
 import type { Knex } from 'knex'
 
+// Seeds are used to populate tables with initial data (like test users).
 export async function seed(knex: Knex): Promise<void> {
   await knex('users').del()
 

@@ -10,6 +10,7 @@ import { useRef } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
+// provides a shared layout for all pages, including metadata, global styles
 export default function RootLayout({
   children,
 }: {
